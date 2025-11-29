@@ -50,8 +50,12 @@ const Index = () => {
   ];
 
   const handleGetStarted = () => {
-    if (loanType) {
-      navigate("/apply");
+   if (loanType) {
+      if (loanType === "home") {
+        navigate("/apply/home-loan");
+      } else {
+        navigate("/apply");
+      }
     }
   };
 
@@ -74,9 +78,6 @@ const Index = () => {
             </button>
             <button onClick={() => navigate("/aggregator")} className="text-xs font-semibold tracking-wide text-foreground/80 hover:text-primary hover:scale-105 transition-all duration-300 uppercase">
               For Aggregator
-            </button>
-            <button onClick={() => navigate("/employer")} className="text-xs font-semibold tracking-wide text-foreground/80 hover:text-primary hover:scale-105 transition-all duration-300 uppercase">
-              For Employers
             </button>
             <Button onClick={() => navigate("/apply")} size="sm" className="gradient-primary font-bold tracking-wide shadow-md hover:shadow-lg transition-all duration-300">
               Apply Now

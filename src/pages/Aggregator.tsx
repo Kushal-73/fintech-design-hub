@@ -63,7 +63,13 @@ const Aggregator = () => {
   const handleLoanSelect = (loanId: string) => {
     setSelectedLoan(loanId);
     // Navigate to apply page with selected loan type
-    navigate(`/apply?type=${loanId}`);
+    if (loanId) {
+      if (loanId === "home") {
+        navigate("/apply/home-loan");
+      } else {
+        navigate("/apply");
+      }
+    }
   };
 
   return (
