@@ -86,42 +86,28 @@ const Offers = () => {
             </div>
           </Card>
 
-          {/* Eligibility Info */}
-          <div className="grid md:grid-cols-3 gap-4 mb-8">
-            <Card className="p-4 shadow-soft">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <TrendingDown className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Best Rate</p>
-                  <p className="text-lg font-bold">10.5% p.a.</p>
-                </div>
+          {/* Eligibility Check Panel */}
+          <Card className="p-6 mb-8 shadow-medium border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5">
+            <h2 className="text-xl font-bold mb-4">Eligibility Check Panel</h2>
+            <div className="grid md:grid-cols-4 gap-4">
+              <div className="p-4 rounded-lg bg-card">
+                <p className="text-sm text-muted-foreground mb-1">Eligible Amount</p>
+                <p className="text-2xl font-bold text-primary">₹5,00,000</p>
               </div>
-            </Card>
-            <Card className="p-4 shadow-soft">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg bg-secondary/10 flex items-center justify-center">
-                  <Clock className="h-5 w-5 text-secondary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Fastest Disbursal</p>
-                  <p className="text-lg font-bold">24 hours</p>
-                </div>
+              <div className="p-4 rounded-lg bg-card">
+                <p className="text-sm text-muted-foreground mb-1">Best Rate</p>
+                <p className="text-2xl font-bold text-primary">10.5% p.a.</p>
               </div>
-            </Card>
-            <Card className="p-4 shadow-soft">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                  <FileText className="h-5 w-5 text-accent" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Minimal Docs</p>
-                  <p className="text-lg font-bold">3 documents</p>
-                </div>
+              <div className="p-4 rounded-lg bg-card">
+                <p className="text-sm text-muted-foreground mb-1">Fastest Disbursal</p>
+                <p className="text-2xl font-bold text-secondary">24 hours</p>
               </div>
-            </Card>
-          </div>
+              <div className="p-4 rounded-lg bg-card">
+                <p className="text-sm text-muted-foreground mb-1">Offers Available</p>
+                <p className="text-2xl font-bold text-primary">{offers.length}</p>
+              </div>
+            </div>
+          </Card>
 
           {/* Offers List */}
           <div className="space-y-6">
@@ -173,10 +159,13 @@ const Offers = () => {
                   </div>
 
                   {/* Apply Button */}
-                  <div className="flex items-center lg:w-1/6">
+                  <div className="flex flex-col gap-2 lg:w-1/6">
                     <Button className="w-full gradient-primary shadow-glow">
                       Apply Now
                       <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" className="w-full text-xs" size="sm">
+                      Compare
                     </Button>
                   </div>
                 </div>
@@ -199,18 +188,15 @@ const Offers = () => {
             ))}
           </div>
 
-          {/* Help Section */}
-          <Card className="mt-8 p-6 bg-muted/50">
-            <div className="text-center space-y-4">
-              <h3 className="text-xl font-bold">Need Help Choosing?</h3>
-              <p className="text-muted-foreground">
-                Our loan advisors are here to help you make the best decision.
-              </p>
-              <Button variant="outline" size="lg">
-                Talk to Expert
-              </Button>
-            </div>
-          </Card>
+          {/* Action Buttons */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <Button variant="outline" size="lg" className="min-w-[200px]">
+              Save & Continue Later
+            </Button>
+            <Button variant="outline" size="lg" className="min-w-[200px]">
+              Talk to Expert
+            </Button>
+          </div>
         </div>
       </div>
     </div>

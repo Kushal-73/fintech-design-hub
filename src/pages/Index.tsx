@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, Calculator, Shield, TrendingUp, Users, Zap, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Calculator, Shield, TrendingUp, Users, Zap, CheckCircle2, Coins, DollarSign, Wallet, Banknote } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
@@ -68,20 +68,17 @@ const Index = () => {
               FinLend
             </span>
           </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <button onClick={() => navigate("/")} className="text-sm font-medium hover:text-primary transition-smooth">
-              Home
-            </button>
-            <button onClick={() => navigate("/aggregator")} className="text-sm font-medium hover:text-primary transition-smooth">
-              Compare Loans
-            </button>
-            <button onClick={() => navigate("/calculator")} className="text-sm font-medium hover:text-primary transition-smooth">
+          <nav className="hidden md:flex items-center gap-8">
+            <button onClick={() => navigate("/calculator")} className="text-xs font-semibold tracking-wide text-foreground/80 hover:text-primary hover:scale-105 transition-all duration-300 uppercase">
               Calculators
             </button>
-            <button onClick={() => navigate("/employer")} className="text-sm font-medium hover:text-primary transition-smooth">
+            <button onClick={() => navigate("/aggregator")} className="text-xs font-semibold tracking-wide text-foreground/80 hover:text-primary hover:scale-105 transition-all duration-300 uppercase">
+              For Aggregator
+            </button>
+            <button onClick={() => navigate("/employer")} className="text-xs font-semibold tracking-wide text-foreground/80 hover:text-primary hover:scale-105 transition-all duration-300 uppercase">
               For Employers
             </button>
-            <Button onClick={() => navigate("/apply")} size="sm" className="gradient-primary">
+            <Button onClick={() => navigate("/apply")} size="sm" className="gradient-primary font-bold tracking-wide shadow-md hover:shadow-lg transition-all duration-300">
               Apply Now
             </Button>
           </nav>
@@ -89,33 +86,86 @@ const Index = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="gradient-hero py-20 lg:py-32">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-              <div className="inline-block">
-                <span className="px-4 py-2 rounded-full bg-secondary/10 text-secondary text-sm font-medium">
-                  Trusted by 10,000+ customers
+      <section className="relative pt-8 pb-0 lg:pt-12 mb-20 overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50 dark:from-blue-950 dark:via-purple-950 dark:to-indigo-950">
+        {/* Decorative Icons - Randomly spread without overlap */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Top Row */}
+          <Coins className="absolute top-[5%] left-[8%] h-10 w-10 text-primary/10 animate-pulse" style={{ animationDelay: '0s' }} />
+          <DollarSign className="absolute top-[8%] left-[25%] h-9 w-9 text-secondary/10 animate-pulse" style={{ animationDelay: '0.3s' }} />
+          <Wallet className="absolute top-[6%] left-[45%] h-11 w-11 text-primary/10 animate-pulse" style={{ animationDelay: '0.6s' }} />
+          <Banknote className="absolute top-[9%] left-[65%] h-8 w-8 text-secondary/10 animate-pulse" style={{ animationDelay: '0.9s' }} />
+          <Coins className="absolute top-[7%] left-[82%] h-12 w-12 text-primary/10 animate-pulse" style={{ animationDelay: '1.2s' }} />
+          <DollarSign className="absolute top-[4%] left-[92%] h-9 w-9 text-secondary/10 animate-pulse" style={{ animationDelay: '1.5s' }} />
+          
+          {/* Upper Middle Row */}
+          <Wallet className="absolute top-[18%] left-[5%] h-10 w-10 text-primary/10 animate-pulse" style={{ animationDelay: '1.8s' }} />
+          <Banknote className="absolute top-[20%] left-[18%] h-11 w-11 text-secondary/10 animate-pulse" style={{ animationDelay: '2.1s' }} />
+          <Coins className="absolute top-[16%] left-[35%] h-8 w-8 text-primary/10 animate-pulse" style={{ animationDelay: '0.2s' }} />
+          <DollarSign className="absolute top-[19%] left-[55%] h-12 w-12 text-secondary/10 animate-pulse" style={{ animationDelay: '0.5s' }} />
+          <Wallet className="absolute top-[17%] left-[75%] h-9 w-9 text-primary/10 animate-pulse" style={{ animationDelay: '0.8s' }} />
+          <Banknote className="absolute top-[21%] left-[88%] h-10 w-10 text-secondary/10 animate-pulse" style={{ animationDelay: '1.1s' }} />
+          
+          {/* Middle Row */}
+          <Coins className="absolute top-[32%] left-[12%] h-11 w-11 text-primary/10 animate-pulse" style={{ animationDelay: '1.4s' }} />
+          <DollarSign className="absolute top-[35%] left-[28%] h-9 w-9 text-secondary/10 animate-pulse" style={{ animationDelay: '1.7s' }} />
+          <Wallet className="absolute top-[33%] left-[50%] h-10 w-10 text-primary/10 animate-pulse" style={{ animationDelay: '2.0s' }} />
+          <Banknote className="absolute top-[36%] left-[68%] h-8 w-8 text-secondary/10 animate-pulse" style={{ animationDelay: '0.1s' }} />
+          <Coins className="absolute top-[34%] left-[85%] h-13 w-13 text-primary/10 animate-pulse" style={{ animationDelay: '0.4s' }} />
+          <DollarSign className="absolute top-[31%] left-[95%] h-9 w-9 text-secondary/10 animate-pulse" style={{ animationDelay: '0.7s' }} />
+          
+          {/* Lower Middle Row */}
+          <Wallet className="absolute top-[48%] left-[3%] h-10 w-10 text-primary/10 animate-pulse" style={{ animationDelay: '1.0s' }} />
+          <Banknote className="absolute top-[51%] left-[22%] h-11 w-11 text-secondary/10 animate-pulse" style={{ animationDelay: '1.3s' }} />
+          <Coins className="absolute top-[49%] left-[42%] h-9 w-9 text-primary/10 animate-pulse" style={{ animationDelay: '1.6s' }} />
+          <DollarSign className="absolute top-[52%] left-[60%] h-8 w-8 text-secondary/10 animate-pulse" style={{ animationDelay: '1.9s' }} />
+          <Wallet className="absolute top-[50%] left-[78%] h-12 w-12 text-primary/10 animate-pulse" style={{ animationDelay: '2.2s' }} />
+          <Banknote className="absolute top-[47%] left-[90%] h-10 w-10 text-secondary/10 animate-pulse" style={{ animationDelay: '0.3s' }} />
+          
+          {/* Bottom Row */}
+          <Coins className="absolute top-[65%] left-[10%] h-9 w-9 text-primary/10 animate-pulse" style={{ animationDelay: '0.6s' }} />
+          <DollarSign className="absolute top-[68%] left-[30%] h-11 w-11 text-secondary/10 animate-pulse" style={{ animationDelay: '0.9s' }} />
+          <Wallet className="absolute top-[66%] left-[48%] h-8 w-8 text-primary/10 animate-pulse" style={{ animationDelay: '1.2s' }} />
+          <Banknote className="absolute top-[69%] left-[70%] h-10 w-10 text-secondary/10 animate-pulse" style={{ animationDelay: '1.5s' }} />
+          <Coins className="absolute top-[67%] left-[88%] h-12 w-12 text-primary/10 animate-pulse" style={{ animationDelay: '1.8s' }} />
+          <DollarSign className="absolute top-[64%] left-[5%] h-9 w-9 text-secondary/10 animate-pulse" style={{ animationDelay: '2.1s' }} />
+          
+          {/* Very Bottom Row */}
+          <Wallet className="absolute top-[82%] left-[15%] h-10 w-10 text-primary/10 animate-pulse" style={{ animationDelay: '0.2s' }} />
+          <Banknote className="absolute top-[85%] left-[38%] h-9 w-9 text-secondary/10 animate-pulse" style={{ animationDelay: '0.5s' }} />
+          <Coins className="absolute top-[83%] left-[58%] h-11 w-11 text-primary/10 animate-pulse" style={{ animationDelay: '0.8s' }} />
+          <DollarSign className="absolute top-[86%] left-[80%] h-8 w-8 text-secondary/10 animate-pulse" style={{ animationDelay: '1.1s' }} />
+          <Wallet className="absolute top-[84%] left-[92%] h-13 w-13 text-primary/10 animate-pulse" style={{ animationDelay: '1.4s' }} />
+          <Banknote className="absolute top-[81%] left-[72%] h-10 w-10 text-secondary/10 animate-pulse" style={{ animationDelay: '1.7s' }} />
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-5xl mx-auto text-center">
+            <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+              <h1 className="text-6xl lg:text-8xl font-bold leading-tight">
+                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                  Your Journey to
                 </span>
-              </div>
-              <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
-                Your Journey to
-                <span className="block mt-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                <span className="block mt-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
                   Financial Freedom
                 </span>
               </h1>
-              <p className="text-lg text-muted-foreground max-w-xl">
+              <p className="text-2xl lg:text-3xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto font-light">
                 Compare personalized loan offers from 50+ leading banks and NBFCs. 
                 Get the best rates with instant approval.
               </p>
 
               {/* Loan Selector */}
-              <Card className="p-6 shadow-medium border-2">
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">What loan are you looking for?</label>
+              <Card className="p-10 shadow-xl border-2 max-w-3xl mx-auto mt-12 bg-gradient-to-br from-white via-blue-50/50 to-purple-50/50 backdrop-blur-sm border-blue-200/50">
+                <div className="space-y-7">
+                  <div className="space-y-3">
+                    <label className="text-lg font-semibold flex items-center gap-2 text-gray-800">
+                      <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+                        <Wallet className="h-5 w-5 text-white" />
+                      </div>
+                      What loan are you looking for?
+                    </label>
                     <Select value={loanType} onValueChange={setLoanType}>
-                      <SelectTrigger className="h-12">
+                      <SelectTrigger className="h-16 text-lg">
                         <SelectValue placeholder="Select loan type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -127,49 +177,40 @@ const Index = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Loan Amount</label>
+                  <div className="space-y-3">
+                    <label className="text-lg font-semibold flex items-center gap-2 text-gray-800">
+                      <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
+                        <DollarSign className="h-5 w-5 text-white" />
+                      </div>
+                      Loan Amount
+                    </label>
                     <Input
                       type="number"
                       placeholder="Enter amount (₹)"
                       value={loanAmount}
                       onChange={(e) => setLoanAmount(e.target.value)}
-                      className="h-12"
+                      className="h-16 text-lg"
                     />
                   </div>
                   <Button 
                     onClick={handleGetStarted} 
-                    className="w-full h-12 gradient-primary text-base font-semibold shadow-glow hover:shadow-medium transition-smooth"
+                    className="w-full h-16 gradient-primary text-xl font-semibold shadow-glow hover:shadow-xl transition-all duration-300 hover:scale-105"
                     disabled={!loanType}
                   >
-                    Get Started
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    Start Application
+                    <ArrowRight className="ml-2 h-6 w-6" />
                   </Button>
                 </div>
               </Card>
 
-              <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-success" />
-                  <span>No credit impact</span>
+              <div className="flex items-center justify-center gap-10 text-base pt-6">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-green-100 to-emerald-100 border border-green-200">
+                  <CheckCircle2 className="h-6 w-6 text-green-600" />
+                  <span className="font-semibold text-green-800">No credit impact</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-success" />
-                  <span>100% free service</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative hidden lg:block animate-in fade-in slide-in-from-right-4 duration-1000 delay-300">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur-sm border-2 border-border shadow-medium p-8">
-                <div className="h-full w-full rounded-xl bg-card/80 backdrop-blur-sm flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <div className="inline-flex h-20 w-20 rounded-full gradient-secondary items-center justify-center shadow-glow">
-                      <Calculator className="h-10 w-10 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold">Smart Loan Matching</h3>
-                    <p className="text-muted-foreground">AI-powered recommendations</p>
-                  </div>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 border border-blue-200">
+                  <CheckCircle2 className="h-6 w-6 text-blue-600" />
+                  <span className="font-semibold text-blue-800">100% free service</span>
                 </div>
               </div>
             </div>
@@ -178,29 +219,43 @@ const Index = () => {
       </section>
 
       {/* Features Grid */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-20 bg-gradient-to-b from-indigo-50 via-purple-50 to-blue-50 dark:from-indigo-950 dark:via-purple-950 dark:to-blue-950">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 space-y-4">
-            <h2 className="text-3xl lg:text-4xl font-bold">Why Choose FinLend?</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+              Why Choose FinLend?
+            </h2>
+            <p className="text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
               We make borrowing simple, transparent, and stress-free
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => {
               const Icon = feature.icon;
+              const colors = [
+                "from-blue-500 to-cyan-500",
+                "from-purple-500 to-indigo-500",
+                "from-green-500 to-emerald-500",
+                "from-orange-500 to-red-500"
+              ];
+              const bgColors = [
+                "from-blue-50 to-cyan-50 border-blue-200",
+                "from-purple-50 to-indigo-50 border-purple-200",
+                "from-green-50 to-emerald-50 border-green-200",
+                "from-orange-50 to-red-50 border-orange-200"
+              ];
               return (
                 <Card 
                   key={index} 
-                  className="p-6 hover:shadow-medium transition-smooth hover:-translate-y-1 bg-card"
+                  className={`p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br ${bgColors[index]} border-2`}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="space-y-4">
-                    <div className="h-12 w-12 rounded-lg gradient-primary flex items-center justify-center">
-                      <Icon className="h-6 w-6 text-white" />
+                    <div className={`h-14 w-14 rounded-xl bg-gradient-to-br ${colors[index]} flex items-center justify-center shadow-lg`}>
+                      <Icon className="h-7 w-7 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold">{feature.title}</h3>
-                    <p className="text-muted-foreground">{feature.description}</p>
+                    <h3 className="text-xl font-semibold text-gray-800">{feature.title}</h3>
+                    <p className="text-gray-600">{feature.description}</p>
                   </div>
                 </Card>
               );
@@ -210,48 +265,52 @@ const Index = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20">
+      <section className="py-20 bg-gradient-to-b from-orange-50 via-yellow-50 to-green-50 dark:from-orange-950 dark:via-yellow-950 dark:to-green-950">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h2 className="text-3xl lg:text-4xl font-bold">
+              <h2 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 to-green-600 bg-clip-text text-transparent">
                 Benefits You'll Love
               </h2>
-              <p className="text-muted-foreground text-lg">
+              <p className="text-gray-700 dark:text-gray-300 text-lg">
                 We've designed our platform to give you the best lending experience possible.
               </p>
               <div className="space-y-4">
-                {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <CheckCircle2 className="h-6 w-6 text-success shrink-0 mt-0.5" />
-                    <span className="text-lg">{benefit}</span>
-                  </div>
-                ))}
+                {benefits.map((benefit, index) => {
+                  const colors = ["text-green-600", "text-blue-600", "text-purple-600", "text-orange-600"];
+                  const bgColors = ["bg-green-100", "bg-blue-100", "bg-purple-100", "bg-orange-100"];
+                  return (
+                    <div key={index} className={`flex items-start gap-3 p-3 rounded-lg ${bgColors[index]} border border-current/20`}>
+                      <CheckCircle2 className={`h-6 w-6 ${colors[index]} shrink-0 mt-0.5`} />
+                      <span className="text-lg text-gray-800">{benefit}</span>
+                    </div>
+                  );
+                })}
               </div>
-              <Button onClick={() => navigate("/apply")} size="lg" className="gradient-primary shadow-glow">
+              <Button onClick={() => navigate("/apply")} size="lg" className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl">
                 Start Your Application
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
-            <Card className="p-8 shadow-medium bg-gradient-to-br from-primary/5 to-secondary/5 border-2">
+            <Card className="p-8 shadow-xl bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50 border-2 border-indigo-200">
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold">Quick Stats</h3>
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Quick Stats</h3>
                 <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <div className="text-4xl font-bold text-primary">50+</div>
-                    <div className="text-sm text-muted-foreground">Partner Lenders</div>
+                  <div className="space-y-2 p-4 rounded-lg bg-gradient-to-br from-blue-100 to-cyan-100 border border-blue-200">
+                    <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">50+</div>
+                    <div className="text-sm text-gray-700 font-medium">Partner Lenders</div>
                   </div>
-                  <div className="space-y-2">
-                    <div className="text-4xl font-bold text-secondary">₹500Cr+</div>
-                    <div className="text-sm text-muted-foreground">Loans Disbursed</div>
+                  <div className="space-y-2 p-4 rounded-lg bg-gradient-to-br from-purple-100 to-indigo-100 border border-purple-200">
+                    <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">₹500Cr+</div>
+                    <div className="text-sm text-gray-700 font-medium">Loans Disbursed</div>
                   </div>
-                  <div className="space-y-2">
-                    <div className="text-4xl font-bold text-primary">10K+</div>
-                    <div className="text-sm text-muted-foreground">Happy Customers</div>
+                  <div className="space-y-2 p-4 rounded-lg bg-gradient-to-br from-green-100 to-emerald-100 border border-green-200">
+                    <div className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">10K+</div>
+                    <div className="text-sm text-gray-700 font-medium">Happy Customers</div>
                   </div>
-                  <div className="space-y-2">
-                    <div className="text-4xl font-bold text-secondary">4.8★</div>
-                    <div className="text-sm text-muted-foreground">Customer Rating</div>
+                  <div className="space-y-2 p-4 rounded-lg bg-gradient-to-br from-orange-100 to-yellow-100 border border-orange-200">
+                    <div className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent">4.8★</div>
+                    <div className="text-sm text-gray-700 font-medium">Customer Rating</div>
                   </div>
                 </div>
               </div>
@@ -261,28 +320,21 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 gradient-primary">
-        <div className="container mx-auto px-4 text-center">
+      <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-3xl mx-auto space-y-8">
-            <h2 className="text-3xl lg:text-4xl font-bold text-white">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white drop-shadow-lg">
               Ready to Get Your Loan?
             </h2>
-            <p className="text-xl text-white/90">
+            <p className="text-xl text-white/95 drop-shadow-md">
               Join thousands of satisfied customers who found their perfect loan through FinLend
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                onClick={() => navigate("/aggregator")} 
-                size="lg" 
-                variant="secondary"
-                className="text-base font-semibold"
-              >
-                Compare Loans
-              </Button>
+            <div className="flex justify-center">
               <Button 
                 onClick={() => navigate("/apply")} 
                 size="lg" 
-                className="bg-white text-primary hover:bg-white/90 text-base font-semibold"
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:from-yellow-500 hover:to-orange-600 text-base font-semibold shadow-xl hover:shadow-2xl transition-all"
               >
                 Apply Now
                 <ArrowRight className="ml-2 h-5 w-5" />

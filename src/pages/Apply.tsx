@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
-import { ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ArrowRight, ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
@@ -13,7 +14,9 @@ const Apply = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [step, setStep] = useState(1);
-  const totalSteps = 4;
+  const totalSteps = 6;
+  const [loadingPAN, setLoadingPAN] = useState(false);
+  const [hasCoApplicant, setHasCoApplicant] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -27,11 +30,63 @@ const Apply = () => {
     company: "",
     industry: "",
     employmentType: "",
+    companyConstitution: "",
+    modeOfSalary: "",
     salary: "",
     experience: "",
+    currentAddress: "",
+    permanentAddress: "",
+    officeAddress: "",
+    employmentCategory: "",
+    salaryCycle: "",
+    coApplicantName: "",
+    coApplicantRelation: "",
+    coApplicantContact: "",
+    coApplicantIncome: "",
+    financier: "",
+    otherFinancier: "",
   });
 
+  // Simulate PAN auto-fetch
+  const handlePANChange = async (pan: string) => {
+    updateFormData("pan", pan.toUpperCase());
+    if (pan.length === 10) {
+      setLoadingPAN(true);
+      // Simulate API call
+      setTimeout(() => {
+        // Mock auto-fetched data
+        updateFormData("firstName", "John");
+        updateFormData("lastName", "Doe");
+        updateFormData("dob", "1990-01-15");
+        setLoadingPAN(false);
+        toast({
+          title: "Details Fetched",
+          description: "Personal details have been auto-filled from PAN.",
+        });
+      }, 1500);
+    }
+  };
+
+  // Validate salary minimum
+  const validateSalary = (salary: string) => {
+    const salaryNum = parseInt(salary);
+    if (salaryNum < 12000) {
+      toast({
+        title: "Invalid Salary",
+        description: "Minimum monthly salary must be ₹12,000",
+        variant: "destructive",
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleNext = () => {
+    // Validation for Step 2
+    if (step === 2 && formData.salary && !validateSalary(formData.salary)) {
+      return;
+    }
+
     if (step < totalSteps) {
       setStep(step + 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -48,6 +103,8 @@ const Apply = () => {
     if (step > 1) {
       setStep(step - 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      navigate("/aggregator");
     }
   };
 
@@ -57,9 +114,10 @@ const Apply = () => {
 
   const progress = (step / totalSteps) * 100;
 
+  const stepLabels = ["Contact", "Personal", "Employment", "Address", "Co-Applicant", "Financier"];
+
   return (
     <div className="min-h-screen bg-gradient-hero">
-      {/* Header */}
       <header className="border-b bg-card/50 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4">
           <button onClick={() => navigate("/")} className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
@@ -70,7 +128,6 @@ const Apply = () => {
 
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto">
-          {/* Progress Bar */}
           <Card className="p-6 mb-8 shadow-soft">
             <div className="space-y-4">
               <div className="flex items-center justify-between text-sm">
@@ -79,15 +136,16 @@ const Apply = () => {
               </div>
               <Progress value={progress} className="h-2" />
               <div className="flex justify-between text-xs text-muted-foreground">
-                <span className={step >= 1 ? "text-primary font-medium" : ""}>Contact</span>
-                <span className={step >= 2 ? "text-primary font-medium" : ""}>Personal</span>
-                <span className={step >= 3 ? "text-primary font-medium" : ""}>Employment</span>
-                <span className={step >= 4 ? "text-primary font-medium" : ""}>Review</span>
+                {stepLabels.map((label, idx) => (
+                  <span key={idx} className={step > idx ? "text-primary font-medium" : ""}>
+                    {label}
+                  </span>
+                ))}
               </div>
             </div>
           </Card>
 
-          {/* Step 1: Contact Information */}
+          {/* Step 1: Phone Number + Pincode */}
           {step === 1 && (
             <Card className="p-8 shadow-medium animate-in fade-in slide-in-from-bottom-4">
               <div className="space-y-6">
@@ -95,7 +153,6 @@ const Apply = () => {
                   <h2 className="text-2xl font-bold mb-2">Contact Information</h2>
                   <p className="text-muted-foreground">Let's start with your basic details</p>
                 </div>
-
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number *</Label>
@@ -109,7 +166,6 @@ const Apply = () => {
                     />
                     <p className="text-xs text-muted-foreground">We'll send an OTP for verification</p>
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="pincode">Pincode *</Label>
                     <Input
@@ -123,7 +179,6 @@ const Apply = () => {
                     />
                   </div>
                 </div>
-
                 <div className="flex items-center gap-2 p-4 rounded-lg bg-secondary/10 text-secondary text-sm">
                   <CheckCircle2 className="h-5 w-5 shrink-0" />
                   <span>Your information is encrypted and secure</span>
@@ -132,29 +187,33 @@ const Apply = () => {
             </Card>
           )}
 
-          {/* Step 2: Personal Details */}
+          {/* Step 2: Basic Details with PAN Auto-fetch */}
           {step === 2 && (
             <Card className="p-8 shadow-medium animate-in fade-in slide-in-from-bottom-4">
               <div className="space-y-6">
                 <div>
                   <h2 className="text-2xl font-bold mb-2">Personal Details</h2>
-                  <p className="text-muted-foreground">We'll auto-fetch details using your PAN</p>
+                  <p className="text-muted-foreground">Enter your PAN to auto-fetch details</p>
                 </div>
-
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="pan">PAN Number *</Label>
-                    <Input
-                      id="pan"
-                      type="text"
-                      placeholder="ABCDE1234F"
-                      value={formData.pan}
-                      onChange={(e) => updateFormData("pan", e.target.value.toUpperCase())}
-                      className="h-12 uppercase"
-                      maxLength={10}
-                    />
+                    <div className="relative">
+                      <Input
+                        id="pan"
+                        type="text"
+                        placeholder="ABCDE1234F"
+                        value={formData.pan}
+                        onChange={(e) => handlePANChange(e.target.value)}
+                        className="h-12 uppercase"
+                        maxLength={10}
+                      />
+                      {loadingPAN && (
+                        <Loader2 className="absolute right-3 top-3.5 h-5 w-5 animate-spin text-primary" />
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground">Details will be auto-filled from PAN</p>
                   </div>
-
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="firstName">First Name *</Label>
@@ -167,7 +226,6 @@ const Apply = () => {
                         className="h-12"
                       />
                     </div>
-
                     <div className="space-y-2">
                       <Label htmlFor="lastName">Last Name *</Label>
                       <Input
@@ -180,7 +238,6 @@ const Apply = () => {
                       />
                     </div>
                   </div>
-
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="dob">Date of Birth *</Label>
@@ -192,7 +249,6 @@ const Apply = () => {
                         className="h-12"
                       />
                     </div>
-
                     <div className="space-y-2">
                       <Label htmlFor="email">Email Address *</Label>
                       <Input
@@ -218,7 +274,6 @@ const Apply = () => {
                   <h2 className="text-2xl font-bold mb-2">Employment Details</h2>
                   <p className="text-muted-foreground">Tell us about your current employment</p>
                 </div>
-
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="company">Company Name *</Label>
@@ -231,10 +286,9 @@ const Apply = () => {
                       className="h-12"
                     />
                   </div>
-
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="industry">Industry *</Label>
+                      <Label htmlFor="industry">Company Industry *</Label>
                       <Select value={formData.industry} onValueChange={(val) => updateFormData("industry", val)}>
                         <SelectTrigger className="h-12">
                           <SelectValue placeholder="Select industry" />
@@ -249,9 +303,8 @@ const Apply = () => {
                         </SelectContent>
                       </Select>
                     </div>
-
                     <div className="space-y-2">
-                      <Label htmlFor="employmentType">Employment Type *</Label>
+                      <Label htmlFor="employmentType">Type of Employment *</Label>
                       <Select value={formData.employmentType} onValueChange={(val) => updateFormData("employmentType", val)}>
                         <SelectTrigger className="h-12">
                           <SelectValue placeholder="Select type" />
@@ -264,7 +317,36 @@ const Apply = () => {
                       </Select>
                     </div>
                   </div>
-
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="companyConstitution">Company Constitution *</Label>
+                      <Select value={formData.companyConstitution} onValueChange={(val) => updateFormData("companyConstitution", val)}>
+                        <SelectTrigger className="h-12">
+                          <SelectValue placeholder="Select constitution" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="private">Private Limited</SelectItem>
+                          <SelectItem value="public">Public Limited</SelectItem>
+                          <SelectItem value="llp">LLP</SelectItem>
+                          <SelectItem value="partnership">Partnership</SelectItem>
+                          <SelectItem value="proprietorship">Proprietorship</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="modeOfSalary">Mode of Salary *</Label>
+                      <Select value={formData.modeOfSalary} onValueChange={(val) => updateFormData("modeOfSalary", val)}>
+                        <SelectTrigger className="h-12">
+                          <SelectValue placeholder="Select mode" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="bank-transfer">Bank Transfer</SelectItem>
+                          <SelectItem value="cash">Cash</SelectItem>
+                          <SelectItem value="cheque">Cheque</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="salary">Monthly Take Home Salary *</Label>
@@ -277,9 +359,8 @@ const Apply = () => {
                         className="h-12"
                         min="12000"
                       />
-                      <p className="text-xs text-muted-foreground">Minimum ₹12,000</p>
+                      <p className="text-xs text-muted-foreground">Minimum ₹12,000 required</p>
                     </div>
-
                     <div className="space-y-2">
                       <Label htmlFor="experience">Total Work Experience *</Label>
                       <Select value={formData.experience} onValueChange={(val) => updateFormData("experience", val)}>
@@ -300,82 +381,208 @@ const Apply = () => {
             </Card>
           )}
 
-          {/* Step 4: Review & Submit */}
+          {/* Step 4: Address & Employment */}
           {step === 4 && (
             <Card className="p-8 shadow-medium animate-in fade-in slide-in-from-bottom-4">
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">Review Your Application</h2>
-                  <p className="text-muted-foreground">Please verify all information before submitting</p>
+                  <h2 className="text-2xl font-bold mb-2">Address & Employment</h2>
+                  <p className="text-muted-foreground">Provide your address details</p>
                 </div>
-
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="font-semibold mb-3 text-sm uppercase text-muted-foreground">Contact Information</h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-muted-foreground">Phone</p>
-                        <p className="font-medium">{formData.phone || "Not provided"}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Pincode</p>
-                        <p className="font-medium">{formData.pincode || "Not provided"}</p>
-                      </div>
-                    </div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="currentAddress">Current Address *</Label>
+                    <Input
+                      id="currentAddress"
+                      type="text"
+                      placeholder="Enter current address"
+                      value={formData.currentAddress}
+                      onChange={(e) => updateFormData("currentAddress", e.target.value)}
+                      className="h-12"
+                    />
                   </div>
-
-                  <div className="border-t pt-6">
-                    <h3 className="font-semibold mb-3 text-sm uppercase text-muted-foreground">Personal Details</h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-muted-foreground">Full Name</p>
-                        <p className="font-medium">{formData.firstName} {formData.lastName}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Email</p>
-                        <p className="font-medium">{formData.email || "Not provided"}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">PAN</p>
-                        <p className="font-medium">{formData.pan || "Not provided"}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Date of Birth</p>
-                        <p className="font-medium">{formData.dob || "Not provided"}</p>
-                      </div>
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="permanentAddress">Permanent Address *</Label>
+                    <Input
+                      id="permanentAddress"
+                      type="text"
+                      placeholder="Enter permanent address"
+                      value={formData.permanentAddress}
+                      onChange={(e) => updateFormData("permanentAddress", e.target.value)}
+                      className="h-12"
+                    />
                   </div>
-
-                  <div className="border-t pt-6">
-                    <h3 className="font-semibold mb-3 text-sm uppercase text-muted-foreground">Employment Details</h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-muted-foreground">Company</p>
-                        <p className="font-medium">{formData.company || "Not provided"}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Industry</p>
-                        <p className="font-medium">{formData.industry || "Not provided"}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Monthly Salary</p>
-                        <p className="font-medium">₹{formData.salary || "0"}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Experience</p>
-                        <p className="font-medium">{formData.experience || "Not provided"}</p>
-                      </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="officeAddress">Office Address *</Label>
+                    <Input
+                      id="officeAddress"
+                      type="text"
+                      placeholder="Enter office address"
+                      value={formData.officeAddress}
+                      onChange={(e) => updateFormData("officeAddress", e.target.value)}
+                      className="h-12"
+                    />
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="employmentCategory">Employment Category *</Label>
+                      <Select value={formData.employmentCategory} onValueChange={(val) => updateFormData("employmentCategory", val)}>
+                        <SelectTrigger className="h-12">
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="government">Government</SelectItem>
+                          <SelectItem value="private">Private</SelectItem>
+                          <SelectItem value="public-sector">Public Sector</SelectItem>
+                          <SelectItem value="mnc">MNC</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="salaryCycle">Salary Cycle *</Label>
+                      <Select value={formData.salaryCycle} onValueChange={(val) => updateFormData("salaryCycle", val)}>
+                        <SelectTrigger className="h-12">
+                          <SelectValue placeholder="Select cycle" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="monthly">Monthly</SelectItem>
+                          <SelectItem value="weekly">Weekly</SelectItem>
+                          <SelectItem value="bi-weekly">Bi-Weekly</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 </div>
+              </div>
+            </Card>
+          )}
 
-                <div className="flex items-start gap-3 p-4 rounded-lg bg-primary/5 border border-primary/20">
-                  <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    <p className="font-medium mb-1">Ready to submit?</p>
-                    <p className="text-muted-foreground">
-                      By submitting, you agree to our terms and authorize us to check your credit score and eligibility.
+          {/* Step 5: Co-Applicant (Optional) */}
+          {step === 5 && (
+            <Card className="p-8 shadow-medium animate-in fade-in slide-in-from-bottom-4">
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-2xl font-bold mb-2">Co-Applicant Details</h2>
+                  <p className="text-muted-foreground">Add a co-applicant (optional)</p>
+                </div>
+                <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                  <Checkbox
+                    id="hasCoApplicant"
+                    checked={hasCoApplicant}
+                    onCheckedChange={(checked) => setHasCoApplicant(checked as boolean)}
+                  />
+                  <Label htmlFor="hasCoApplicant" className="cursor-pointer">
+                    I have a co-applicant
+                  </Label>
+                </div>
+                {hasCoApplicant && (
+                  <div className="space-y-4 animate-in fade-in">
+                    <div className="space-y-2">
+                      <Label htmlFor="coApplicantName">Co-Applicant Name *</Label>
+                      <Input
+                        id="coApplicantName"
+                        type="text"
+                        placeholder="Enter co-applicant name"
+                        value={formData.coApplicantName}
+                        onChange={(e) => updateFormData("coApplicantName", e.target.value)}
+                        className="h-12"
+                      />
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="coApplicantRelation">Relation *</Label>
+                        <Select value={formData.coApplicantRelation} onValueChange={(val) => updateFormData("coApplicantRelation", val)}>
+                          <SelectTrigger className="h-12">
+                            <SelectValue placeholder="Select relation" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="spouse">Spouse</SelectItem>
+                            <SelectItem value="parent">Parent</SelectItem>
+                            <SelectItem value="sibling">Sibling</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="coApplicantContact">Contact Number *</Label>
+                        <Input
+                          id="coApplicantContact"
+                          type="tel"
+                          placeholder="Enter contact number"
+                          value={formData.coApplicantContact}
+                          onChange={(e) => updateFormData("coApplicantContact", e.target.value)}
+                          className="h-12"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="coApplicantIncome">Monthly Income *</Label>
+                      <Input
+                        id="coApplicantIncome"
+                        type="number"
+                        placeholder="₹ 50,000"
+                        value={formData.coApplicantIncome}
+                        onChange={(e) => updateFormData("coApplicantIncome", e.target.value)}
+                        className="h-12"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Card>
+          )}
+
+          {/* Step 6: Select Financier */}
+          {step === 6 && (
+            <Card className="p-8 shadow-medium animate-in fade-in slide-in-from-bottom-4">
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-2xl font-bold mb-2">Select Financier</h2>
+                  <p className="text-muted-foreground">Choose your preferred bank or NBFC, or select auto-suggested best options</p>
+                </div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="financier">Preferred Financier *</Label>
+                    <Select value={formData.financier} onValueChange={(val) => updateFormData("financier", val)}>
+                      <SelectTrigger className="h-12">
+                        <SelectValue placeholder="Select or choose auto-suggested" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="auto">Auto-Suggested Best Options (Recommended)</SelectItem>
+                        <SelectItem value="hdfc">HDFC Bank</SelectItem>
+                        <SelectItem value="icici">ICICI Bank</SelectItem>
+                        <SelectItem value="sbi">State Bank of India</SelectItem>
+                        <SelectItem value="axis">Axis Bank</SelectItem>
+                        <SelectItem value="bajaj">Bajaj Finserv</SelectItem>
+                        <SelectItem value="fullerton">Fullerton India</SelectItem>
+                        <SelectItem value="home-credit">Home Credit</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-muted-foreground">
+                      Auto-suggested options are based on your eligibility and best rates
                     </p>
+                  </div>
+                  {formData.financier === "other" && (
+                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
+                      <Label htmlFor="otherFinancier">Please specify the financier name *</Label>
+                      <Input
+                        id="otherFinancier"
+                        type="text"
+                        placeholder="Enter bank or NBFC name"
+                        value={formData.otherFinancier}
+                        onChange={(e) => updateFormData("otherFinancier", e.target.value)}
+                        className="h-12"
+                      />
+                    </div>
+                  )}
+                  <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
+                    <p className="text-sm font-medium mb-2">What happens next?</p>
+                    <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                      <li>We'll check your eligibility</li>
+                      <li>Compare offers from selected financiers</li>
+                      <li>Show you the best loan options</li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -388,7 +595,6 @@ const Apply = () => {
               onClick={handleBack}
               variant="outline"
               size="lg"
-              disabled={step === 1}
               className="min-w-[120px]"
             >
               <ArrowLeft className="mr-2 h-5 w-5" />

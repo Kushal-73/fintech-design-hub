@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Apply from "./pages/Apply";
 import Offers from "./pages/Offers";
 import Calculator from "./pages/Calculator";
+import Aggregator from "./pages/Aggregator";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/apply" element={<Apply />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/calculator" element={<Calculator />} />
+          <Route path="/aggregator" element={<Aggregator />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
