@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowRight, ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
+import { ArrowRight, ArrowLeft, CheckCircle2, Loader2, Upload } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
@@ -17,6 +17,8 @@ const Apply = () => {
   const totalSteps = 6;
   const [loadingPAN, setLoadingPAN] = useState(false);
   const [hasCoApplicant, setHasCoApplicant] = useState(false);
+  const [salarySlipFile, setSalarySlipFile] = useState<File | null>(null);
+  const [bankStatementFile, setBankStatementFile] = useState<File | null>(null);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -67,6 +69,45 @@ const Apply = () => {
     }
   };
 
+  // Handle file uploads
+  const handleSalarySlipUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.type !== "application/pdf") {
+        toast({
+          title: "Invalid File Type",
+          description: "Please upload a PDF file for salary slip.",
+          variant: "destructive",
+        });
+        return;
+      }
+      setSalarySlipFile(file);
+      toast({
+        title: "Salary Slip Uploaded",
+        description: `${file.name} has been successfully uploaded.`,
+      });
+    }
+  };
+
+  const handleBankStatementUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.type !== "application/pdf") {
+        toast({
+          title: "Invalid File Type",
+          description: "Please upload a PDF file for bank statement.",
+          variant: "destructive",
+        });
+        return;
+      }
+      setBankStatementFile(file);
+      toast({
+        title: "Bank Statement Uploaded",
+        description: `${file.name} has been successfully uploaded.`,
+      });
+    }
+  };
+
   // Validate salary minimum
   const validateSalary = (salary: string) => {
     const salaryNum = parseInt(salary);
@@ -85,6 +126,27 @@ const Apply = () => {
     // Validation for Step 2
     if (step === 2 && formData.salary && !validateSalary(formData.salary)) {
       return;
+    }
+
+    // Validation for Step 3 - File upload based on employment type
+    if (step === 3) {
+      if (formData.employmentType === "salaried" && !salarySlipFile) {
+        toast({
+          title: "Salary Slip Required",
+          description: "Please upload your salary slip to continue.",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      if ((formData.employmentType === "self-employed" || formData.employmentType === "business") && !bankStatementFile) {
+        toast({
+          title: "Bank Statement Required",
+          description: "Please upload your bank statement to continue.",
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     if (step < totalSteps) {
@@ -376,6 +438,62 @@ const Apply = () => {
                       </Select>
                     </div>
                   </div>
+
+                  {/* Conditional File Upload Section */}
+                  {formData.employmentType && (
+                    <div className="space-y-4 pt-4 border-t animate-in fade-in slide-in-from-top-2">
+                      <div className="space-y-2">
+                        <Label className="text-base font-semibold">
+                          {formData.employmentType === "salaried" 
+                            ? "Upload Salary Slip *" 
+                            : "Upload Bank Statement *"}
+                        </Label>
+                        <p className="text-sm text-muted-foreground">
+                          {formData.employmentType === "salaried"
+                            ? "Please upload your latest salary slip (PDF only)"
+                            : "Please upload your last 3 months bank statement (PDF only)"}
+                        </p>
+                        
+                        {formData.employmentType === "salaried" ? (
+                          <div className="space-y-2">
+                            <Input
+                              id="salarySlip"
+                              type="file"
+                              accept=".pdf"
+                              onChange={handleSalarySlipUpload}
+                              className="h-12"
+                            />
+                            {salarySlipFile && (
+                              <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50 border border-green-200">
+                                <CheckCircle2 className="h-5 w-5 text-green-600" />
+                                <span className="text-sm font-medium text-green-800">
+                                  {salarySlipFile.name}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            <Input
+                              id="bankStatement"
+                              type="file"
+                              accept=".pdf"
+                              onChange={handleBankStatementUpload}
+                              className="h-12"
+                            />
+                            {bankStatementFile && (
+                              <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50 border border-green-200">
+                                <CheckCircle2 className="h-5 w-5 text-green-600" />
+                                <span className="text-sm font-medium text-green-800">
+                                  {bankStatementFile.name}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </Card>

@@ -63,29 +63,83 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Header */}
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg gradient-primary flex items-center justify-center">
-              <TrendingUp className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              FinLend
-            </span>
-          </div>
-          <nav className="hidden md:flex items-center gap-8">
-            <button onClick={() => navigate("/calculator")} className="text-xs font-semibold tracking-wide text-foreground/80 hover:text-primary hover:scale-105 transition-all duration-300 uppercase">
-              Calculators
-            </button>
-            <button onClick={() => navigate("/aggregator")} className="text-xs font-semibold tracking-wide text-foreground/80 hover:text-primary hover:scale-105 transition-all duration-300 uppercase">
-              For Aggregator
-            </button>
-            <Button onClick={() => navigate("/apply")} size="sm" className="gradient-primary font-bold tracking-wide shadow-md hover:shadow-lg transition-all duration-300">
-              Apply Now
-            </Button>
-          </nav>
+  <div className="container mx-auto px-4 py-3 sm:py-4">
+    <div className="flex items-center justify-between">
+      {/* Logo */}
+      <div className="flex items-center gap-2">
+        <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg gradient-primary flex items-center justify-center">
+          <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
         </div>
-      </header>
+        <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          FinLend
+        </span>
+      </div>
 
+      {/* Desktop Navigation */}
+      <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+        <button 
+          onClick={() => navigate("/calculator")} 
+          className="text-xs font-semibold tracking-wide text-foreground/80 hover:text-primary hover:scale-105 transition-all duration-300 uppercase"
+        >
+          Calculators
+        </button>
+        <button 
+          onClick={() => navigate("/aggregator")} 
+          className="text-xs font-semibold tracking-wide text-foreground/80 hover:text-primary hover:scale-105 transition-all duration-300 uppercase"
+        >
+          For Aggregator
+        </button>
+        <Button 
+          onClick={() => navigate("/apply")} 
+          size="sm" 
+          className="gradient-primary font-bold tracking-wide shadow-md hover:shadow-lg transition-all duration-300"
+        >
+          Apply Now
+        </Button>
+      </nav>
+
+      {/* Mobile Menu Button and Apply */}
+      <div className="flex items-center gap-2 md:hidden">
+        <Button 
+          onClick={() => navigate("/apply")} 
+          size="sm" 
+          className="gradient-primary font-bold tracking-wide text-xs shadow-md hover:shadow-lg transition-all duration-300 mr-2"
+        >
+          Apply
+        </Button>
+        <button 
+          className="p-2 rounded-md text-foreground/80 hover:text-primary hover:bg-primary/10 transition-all duration-300"
+          onClick={() => document.getElementById('mobile-menu').classList.toggle('hidden')}
+        >
+          {/* Hamburger Icon */}
+          <div className="w-5 h-5 flex flex-col justify-between">
+            <div className="w-full h-0.5 bg-current rounded"></div>
+            <div className="w-full h-0.5 bg-current rounded"></div>
+            <div className="w-full h-0.5 bg-current rounded"></div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    {/* Mobile Menu */}
+    <div id="mobile-menu" className="hidden md:hidden mt-4 pb-4 border-t pt-4">
+      <nav className="flex flex-col gap-4">
+        <button 
+          onClick={() => navigate("/calculator")}
+          className="text-sm font-semibold text-foreground/80 hover:text-primary py-2 transition-all duration-300 text-left"
+        >
+          Calculators
+        </button>
+        <button 
+          onClick={() => navigate("/aggregator")}
+          className="text-sm font-semibold text-foreground/80 hover:text-primary py-2 transition-all duration-300 text-left"
+        >
+          For Aggregator
+        </button>
+      </nav>
+    </div>
+  </div>
+</header>
       {/* Hero Section */}
       <section className="relative pt-8 pb-0 lg:pt-12 mb-20 overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50 dark:from-blue-950 dark:via-purple-950 dark:to-indigo-950">
         {/* Decorative Icons - Randomly spread without overlap */}
