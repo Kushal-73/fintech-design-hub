@@ -73,14 +73,6 @@ const Apply = () => {
   const handleSalarySlipUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.type !== "application/pdf") {
-        toast({
-          title: "Invalid File Type",
-          description: "Please upload a PDF file for salary slip.",
-          variant: "destructive",
-        });
-        return;
-      }
       setSalarySlipFile(file);
       toast({
         title: "Salary Slip Uploaded",
@@ -92,14 +84,6 @@ const Apply = () => {
   const handleBankStatementUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.type !== "application/pdf") {
-        toast({
-          title: "Invalid File Type",
-          description: "Please upload a PDF file for bank statement.",
-          variant: "destructive",
-        });
-        return;
-      }
       setBankStatementFile(file);
       toast({
         title: "Bank Statement Uploaded",
@@ -128,27 +112,7 @@ const Apply = () => {
       return;
     }
 
-    // Validation for Step 3 - File upload based on employment type
-    if (step === 3) {
-      if (formData.employmentType === "salaried" && !salarySlipFile) {
-        toast({
-          title: "Salary Slip Required",
-          description: "Please upload your salary slip to continue.",
-          variant: "destructive",
-        });
-        return;
-      }
-      
-      if ((formData.employmentType === "self-employed" || formData.employmentType === "business") && !bankStatementFile) {
-        toast({
-          title: "Bank Statement Required",
-          description: "Please upload your bank statement to continue.",
-          variant: "destructive",
-        });
-        return;
-      }
-    }
-
+    // No file validation required - files are optional
     if (step < totalSteps) {
       setStep(step + 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -337,160 +301,161 @@ const Apply = () => {
                   <p className="text-muted-foreground">Tell us about your current employment</p>
                 </div>
                 <div className="space-y-4">
+                  {/* Type of Employment - Always shown first */}
                   <div className="space-y-2">
-                    <Label htmlFor="company">Company Name *</Label>
-                    <Input
-                      id="company"
-                      type="text"
-                      placeholder="Enter company name"
-                      value={formData.company}
-                      onChange={(e) => updateFormData("company", e.target.value)}
-                      className="h-12"
-                    />
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="industry">Company Industry *</Label>
-                      <Select value={formData.industry} onValueChange={(val) => updateFormData("industry", val)}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="Select industry" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="it">IT & Software</SelectItem>
-                          <SelectItem value="finance">Finance & Banking</SelectItem>
-                          <SelectItem value="healthcare">Healthcare</SelectItem>
-                          <SelectItem value="manufacturing">Manufacturing</SelectItem>
-                          <SelectItem value="retail">Retail</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="employmentType">Type of Employment *</Label>
-                      <Select value={formData.employmentType} onValueChange={(val) => updateFormData("employmentType", val)}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="salaried">Salaried</SelectItem>
-                          <SelectItem value="self-employed">Self Employed</SelectItem>
-                          <SelectItem value="business">Business Owner</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="companyConstitution">Company Constitution *</Label>
-                      <Select value={formData.companyConstitution} onValueChange={(val) => updateFormData("companyConstitution", val)}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="Select constitution" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="private">Private Limited</SelectItem>
-                          <SelectItem value="public">Public Limited</SelectItem>
-                          <SelectItem value="llp">LLP</SelectItem>
-                          <SelectItem value="partnership">Partnership</SelectItem>
-                          <SelectItem value="proprietorship">Proprietorship</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="modeOfSalary">Mode of Salary *</Label>
-                      <Select value={formData.modeOfSalary} onValueChange={(val) => updateFormData("modeOfSalary", val)}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="Select mode" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="bank-transfer">Bank Transfer</SelectItem>
-                          <SelectItem value="cash">Cash</SelectItem>
-                          <SelectItem value="cheque">Cheque</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="salary">Monthly Take Home Salary *</Label>
-                      <Input
-                        id="salary"
-                        type="number"
-                        placeholder="₹ 50,000"
-                        value={formData.salary}
-                        onChange={(e) => updateFormData("salary", e.target.value)}
-                        className="h-12"
-                        min="12000"
-                      />
-                      <p className="text-xs text-muted-foreground">Minimum ₹12,000 required</p>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="experience">Total Work Experience *</Label>
-                      <Select value={formData.experience} onValueChange={(val) => updateFormData("experience", val)}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="Select experience" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="0-1">0-1 years</SelectItem>
-                          <SelectItem value="1-3">1-3 years</SelectItem>
-                          <SelectItem value="3-5">3-5 years</SelectItem>
-                          <SelectItem value="5+">5+ years</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                    <Label htmlFor="employmentType">Type of Employment *</Label>
+                    <Select value={formData.employmentType} onValueChange={(val) => updateFormData("employmentType", val)}>
+                      <SelectTrigger className="h-12">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="salaried">Salaried</SelectItem>
+                        <SelectItem value="self-employed">Self Employed</SelectItem>
+                        <SelectItem value="unemployed">Unemployed</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
-                  {/* Conditional File Upload Section */}
-                  {formData.employmentType && (
-                    <div className="space-y-4 pt-4 border-t animate-in fade-in slide-in-from-top-2">
+                  {/* Show additional fields only for salaried employment */}
+                  {formData.employmentType === "salaried" && (
+                    <div className="space-y-4 animate-in fade-in slide-in-from-top-2 border-t pt-4">
                       <div className="space-y-2">
-                        <Label className="text-base font-semibold">
-                          {formData.employmentType === "salaried" 
-                            ? "Upload Salary Slip *" 
-                            : "Upload Bank Statement *"}
-                        </Label>
+                        <Label htmlFor="company">Company Name *</Label>
+                        <Input
+                          id="company"
+                          type="text"
+                          placeholder="Enter company name"
+                          value={formData.company}
+                          onChange={(e) => updateFormData("company", e.target.value)}
+                          className="h-12"
+                        />
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="industry">Company Industry *</Label>
+                          <Select value={formData.industry} onValueChange={(val) => updateFormData("industry", val)}>
+                            <SelectTrigger className="h-12">
+                              <SelectValue placeholder="Select industry" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="it">IT & Software</SelectItem>
+                              <SelectItem value="finance">Finance & Banking</SelectItem>
+                              <SelectItem value="healthcare">Healthcare</SelectItem>
+                              <SelectItem value="manufacturing">Manufacturing</SelectItem>
+                              <SelectItem value="retail">Retail</SelectItem>
+                              <SelectItem value="other">Other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="companyConstitution">Company Constitution *</Label>
+                          <Select value={formData.companyConstitution} onValueChange={(val) => updateFormData("companyConstitution", val)}>
+                            <SelectTrigger className="h-12">
+                              <SelectValue placeholder="Select constitution" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="private">Private Limited</SelectItem>
+                              <SelectItem value="public">Public Limited</SelectItem>
+                              <SelectItem value="llp">LLP</SelectItem>
+                              <SelectItem value="partnership">Partnership</SelectItem>
+                              <SelectItem value="proprietorship">Proprietorship</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="modeOfSalary">Mode of Salary *</Label>
+                          <Select value={formData.modeOfSalary} onValueChange={(val) => updateFormData("modeOfSalary", val)}>
+                            <SelectTrigger className="h-12">
+                              <SelectValue placeholder="Select mode" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="bank-transfer">Bank Transfer</SelectItem>
+                              <SelectItem value="cash">Cash</SelectItem>
+                              <SelectItem value="cheque">Cheque</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="experience">Total Work Experience *</Label>
+                          <Select value={formData.experience} onValueChange={(val) => updateFormData("experience", val)}>
+                            <SelectTrigger className="h-12">
+                              <SelectValue placeholder="Select experience" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="0-1">0-1 years</SelectItem>
+                              <SelectItem value="1-3">1-3 years</SelectItem>
+                              <SelectItem value="3-5">3-5 years</SelectItem>
+                              <SelectItem value="5+">5+ years</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="salary">Monthly Take Home Salary *</Label>
+                        <Input
+                          id="salary"
+                          type="number"
+                          placeholder="₹ 50,000"
+                          value={formData.salary}
+                          onChange={(e) => updateFormData("salary", e.target.value)}
+                          className="h-12"
+                          min="12000"
+                        />
+                        <p className="text-xs text-muted-foreground">Minimum ₹12,000 required</p>
+                      </div>
+
+                      {/* Salary Slip Upload for Salaried - Optional */}
+                      <div className="space-y-2 pt-4 border-t">
+                        <Label className="text-base font-semibold">Upload Salary Slip (Optional)</Label>
                         <p className="text-sm text-muted-foreground">
-                          {formData.employmentType === "salaried"
-                            ? "Please upload your latest salary slip (PDF only)"
-                            : "Please upload your last 3 months bank statement (PDF only)"}
+                          Upload your latest salary slip for faster processing
                         </p>
-                        
-                        {formData.employmentType === "salaried" ? (
-                          <div className="space-y-2">
-                            <Input
-                              id="salarySlip"
-                              type="file"
-                              accept=".pdf"
-                              onChange={handleSalarySlipUpload}
-                              className="h-12"
-                            />
-                            {salarySlipFile && (
-                              <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50 border border-green-200">
-                                <CheckCircle2 className="h-5 w-5 text-green-600" />
-                                <span className="text-sm font-medium text-green-800">
-                                  {salarySlipFile.name}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="space-y-2">
-                            <Input
-                              id="bankStatement"
-                              type="file"
-                              accept=".pdf"
-                              onChange={handleBankStatementUpload}
-                              className="h-12"
-                            />
-                            {bankStatementFile && (
-                              <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50 border border-green-200">
-                                <CheckCircle2 className="h-5 w-5 text-green-600" />
-                                <span className="text-sm font-medium text-green-800">
-                                  {bankStatementFile.name}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                        )}
+                        <div className="space-y-2">
+                          <Input
+                            id="salarySlip"
+                            type="file"
+                            onChange={handleSalarySlipUpload}
+                            className="h-12"
+                          />
+                          {salarySlipFile && (
+                            <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50 border border-green-200">
+                              <CheckCircle2 className="h-5 w-5 text-green-600" />
+                              <span className="text-sm font-medium text-green-800">
+                                {salarySlipFile.name}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Show bank statement upload for self-employed and unemployed - Optional */}
+                  {(formData.employmentType === "self-employed" || formData.employmentType === "unemployed") && (
+                    <div className="space-y-4 animate-in fade-in slide-in-from-top-2 border-t pt-4">
+                      <div className="space-y-2">
+                        <Label className="text-base font-semibold">Upload 6 Months Bank Statement (Optional)</Label>
+                        <p className="text-sm text-muted-foreground">
+                          Upload your bank statement for faster processing
+                        </p>
+                        <div className="space-y-2">
+                          <Input
+                            id="bankStatement"
+                            type="file"
+                            onChange={handleBankStatementUpload}
+                            className="h-12"
+                          />
+                          {bankStatementFile && (
+                            <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50 border border-green-200">
+                              <CheckCircle2 className="h-5 w-5 text-green-600" />
+                              <span className="text-sm font-medium text-green-800">
+                                {bankStatementFile.name}
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -733,4 +698,4 @@ const Apply = () => {
   );
 };
 
-export default Apply;
+export default Apply; 
