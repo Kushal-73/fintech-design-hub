@@ -8,27 +8,33 @@ const Services = () => {
 
   const services = [
     {
+      title: "CAPITAL MARKET",
+      description: "IPO, SME Listing & Capital Market Solutions",
+      icon: TrendingUp,
+      link: "/services/capital-market"
+    },
+    {
       title: "DEBT SYNDICATION",
-      description: "Leverage Stress Free HR Solutions",
+      description: "Business & Home Loans, Term Loans & Working Capital",
       icon: Briefcase,
       link: "/services/debt-syndication"
     },
     {
       title: "AUDIT & TAXATION",
-      description: "Find Quality & Handpicked Candidates",
+      description: "Comprehensive Audit & Tax Advisory Services",
       icon: FileText,
       link: "/services/audit-taxation"
     },
     {
       title: "FINANCIAL ADVISORY",
-      description: "Affordable, Accessible, Paperless Solutions",
-      icon: TrendingUp,
+      description: "Strategic Financial Planning & Advisory",
+      icon: Calculator,
       link: "/services/financial-advisory"
     },
     {
       title: "GST ADVISORY",
-      description: "Complete End to End Consulting Across HR Functions",
-      icon: Calculator,
+      description: "GST Compliance & Advisory Services",
+      icon: CheckCircle2,
       link: "/services/gst-advisory"
     }
   ];
@@ -87,20 +93,22 @@ const Services = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">Core Expertise</h2>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
             {services.map((service, index) => {
               const Icon = service.icon;
               const colors = [
                 "from-blue-500 to-cyan-500",
                 "from-purple-500 to-indigo-500",
                 "from-green-500 to-emerald-500",
-                "from-orange-500 to-red-500"
+                "from-orange-500 to-red-500",
+                "from-pink-500 to-rose-500"
               ];
               const bgColors = [
                 "from-blue-50 to-cyan-50 border-blue-200",
                 "from-purple-50 to-indigo-50 border-purple-200",
                 "from-green-50 to-emerald-50 border-green-200",
-                "from-orange-50 to-red-50 border-orange-200"
+                "from-orange-50 to-red-50 border-orange-200",
+                "from-pink-50 to-rose-50 border-pink-200"
               ];
               return (
                 <Card 
