@@ -5,6 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRight, Calculator, Shield, TrendingUp, Users, Zap, CheckCircle2, Coins, DollarSign, Wallet, Banknote } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -77,6 +85,66 @@ const Index = () => {
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="text-xs font-semibold tracking-wide uppercase">
+                Services
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div className="w-[400px] p-4 bg-popover">
+                  <div className="space-y-2">
+                    <NavigationMenuLink asChild>
+                      <button
+                        onClick={() => navigate("/services")}
+                        className="block w-full text-left px-4 py-3 rounded-md hover:bg-accent transition-colors"
+                      >
+                        <div className="font-semibold text-sm">All Services</div>
+                        <div className="text-xs text-muted-foreground">View our complete range of services</div>
+                      </button>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <button
+                        onClick={() => navigate("/services/debt-syndication")}
+                        className="block w-full text-left px-4 py-3 rounded-md hover:bg-accent transition-colors"
+                      >
+                        <div className="font-semibold text-sm">Debt Syndication</div>
+                        <div className="text-xs text-muted-foreground">Leverage stress free solutions</div>
+                      </button>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <button
+                        onClick={() => navigate("/services/audit-taxation")}
+                        className="block w-full text-left px-4 py-3 rounded-md hover:bg-accent transition-colors"
+                      >
+                        <div className="font-semibold text-sm">Audit & Taxation</div>
+                        <div className="text-xs text-muted-foreground">Quality consulting services</div>
+                      </button>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <button
+                        onClick={() => navigate("/services/financial-advisory")}
+                        className="block w-full text-left px-4 py-3 rounded-md hover:bg-accent transition-colors"
+                      >
+                        <div className="font-semibold text-sm">Financial Advisory</div>
+                        <div className="text-xs text-muted-foreground">Affordable, accessible solutions</div>
+                      </button>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <button
+                        onClick={() => navigate("/services/gst-advisory")}
+                        className="block w-full text-left px-4 py-3 rounded-md hover:bg-accent transition-colors"
+                      >
+                        <div className="font-semibold text-sm">GST Advisory</div>
+                        <div className="text-xs text-muted-foreground">Complete end to end consulting</div>
+                      </button>
+                    </NavigationMenuLink>
+                  </div>
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
         <button 
           onClick={() => navigate("/calculator")} 
           className="text-xs font-semibold tracking-wide text-foreground/80 hover:text-primary hover:scale-105 transition-all duration-300 uppercase"
@@ -124,6 +192,12 @@ const Index = () => {
     {/* Mobile Menu */}
     <div id="mobile-menu" className="hidden md:hidden mt-4 pb-4 border-t pt-4">
       <nav className="flex flex-col gap-4">
+        <button 
+          onClick={() => navigate("/services")}
+          className="text-sm font-semibold text-foreground/80 hover:text-primary py-2 transition-all duration-300 text-left"
+        >
+          Services
+        </button>
         <button 
           onClick={() => navigate("/calculator")}
           className="text-sm font-semibold text-foreground/80 hover:text-primary py-2 transition-all duration-300 text-left"
