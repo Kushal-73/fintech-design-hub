@@ -241,7 +241,6 @@ const FinancialAdvisory = () => {
           </div>
         </div>
       </section>
-
       {/* Active Service Content */}
       <section className="py-12 bg-gradient-to-b from-background to-orange-50/30 dark:to-orange-950/10">
         <div className="container mx-auto px-4">
@@ -267,35 +266,6 @@ const FinancialAdvisory = () => {
               </Card>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-12 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl lg:text-3xl font-bold text-white mb-4">
-            Transform Your Financial Strategy
-          </h2>
-          <p className="text-lg text-white/90 mb-6 max-w-2xl mx-auto">
-            We become an integral part of your company, providing extensive support in all business functions so you can make the right strategic decisions.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button
-              size="lg"
-              onClick={() => navigate("/apply")}
-              className="bg-white text-orange-600 hover:bg-white/90 font-bold px-6 py-4 h-auto text-sm"
-            >
-              Get Started
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => navigate("/contact")}
-              className="bg-transparent border-white text-white hover:bg-white/10 font-bold px-6 py-4 h-auto text-sm"
-            >
-              Contact Us
-            </Button>
-          </div>
         </div>
       </section>
     </div>

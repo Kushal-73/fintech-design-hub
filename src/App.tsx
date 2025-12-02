@@ -14,7 +14,7 @@ import CapitalMarket from "./pages/services/CapitalMarket";
 import DebtSyndication from "./pages/services/DebtSyndication";
 import AuditTaxation from "./pages/services/AuditTaxation";
 import FinancialAdvisory from "./pages/services/FinancialAdvisory";
-import GstAdvisory from "./pages/services/GstAdvisory.tsx";
+import GstAdvisory from "./pages/services/GstAdvisory";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

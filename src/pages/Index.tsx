@@ -5,15 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRight, Calculator, Shield, TrendingUp, Users, Zap, CheckCircle2, Coins, DollarSign, Wallet, Banknote } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-
 
 const Index = () => {
   const navigate = useNavigate();
@@ -193,12 +184,6 @@ const Index = () => {
     {/* Mobile Menu */}
     <div id="mobile-menu" className="hidden md:hidden mt-4 pb-4 border-t pt-4">
       <nav className="flex flex-col gap-4">
-         <button 
-          onClick={() => navigate("/services")}
-          className="text-sm font-semibold text-foreground/80 hover:text-primary py-2 transition-all duration-300 text-left"
-        >
-          Services
-        </button>
         <button 
           onClick={() => navigate("/calculator")}
           className="text-sm font-semibold text-foreground/80 hover:text-primary py-2 transition-all duration-300 text-left"
