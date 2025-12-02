@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRight, Calculator, Shield, TrendingUp, Users, Zap, CheckCircle2, Coins, DollarSign, Wallet, Banknote } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
 
 const Index = () => {
   const navigate = useNavigate();
