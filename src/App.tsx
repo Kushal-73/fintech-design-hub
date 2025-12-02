@@ -9,6 +9,12 @@ import Apply from "./pages/Apply";
 import Offers from "./pages/Offers";
 import Calculator from "./pages/Calculator";
 import Aggregator from "./pages/Aggregator";
+import Services from "./pages/Services";
+import CapitalMarket from "./pages/services/CapitalMarket";
+import DebtSyndication from "./pages/services/DebtSyndication";
+import AuditTaxation from "./pages/services/AuditTaxation";
+import FinancialAdvisory from "./pages/services/FinancialAdvisory";
+import GstAdvisory from "./pages/services/GstAdvisory.tsx";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,12 +26,18 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+         <Route path="/" element={<Index />} />
           <Route path="/apply" element={<Apply />} />
           <Route path="/apply/home-loan" element={<HomeLoanApply />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/calculator" element={<Calculator />} />
           <Route path="/aggregator" element={<Aggregator />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/services/capital-market" element={<CapitalMarket />} />
+          <Route path="/services/debt-syndication" element={<DebtSyndication />} />
+          <Route path="/services/audit-taxation" element={<AuditTaxation />} />
+          <Route path="/services/financial-advisory" element={<FinancialAdvisory />} />
+          <Route path="/services/gst-advisory" element={<GstAdvisory />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
